@@ -1,0 +1,115 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    System.Data.DataView data = ViewBag.DataEmp;
+}
+
+
+<body>
+    <!-- ======= Mobile nav toggle button ======= -->
+    <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+    <!-- ======= Header ======= -->
+    <header id="header">
+        <div class="d-flex flex-column">
+
+            <div class="profile">
+                <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
+                <h1 class="text-light"><a href="index.html">Teddy Shomali</a></h1>
+                <div class="social-links mt-3 text-center">
+                    <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                    <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                </div>
+            </div>
+
+            <nav id="navbar" class="nav-menu navbar">
+                <ul>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bx bx-home"> <span>Home</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Excuse" asp-action="ExcuseIndex"><i class="bx bx-home"><span>Excuses List</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Attendance"><i class="bi bi-table"><span>Attendance Table</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Emplist"><i class="bi bi-table"><span>Employee List</span></i></a></li>
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
+    </header><!-- End Header -->
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="hero-container" data-aos="fade-in">
+            <h1>Teddy Shomali</h1>
+            <p>I'm "Developer, Programer"></p>
+        </div>
+    </section><!-- End Hero -->
+
+    <section id="mytable" class="services d-flex flex-column justify-content-center align-items-center">
+        <div class="container">
+
+            <div class="section-title  d-flex flex-column justify-content-center align-items-center">
+                <h2>My Table</h2>
+            </div>
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Hours</th>
+                        <th scope="col">Detailed Time</th>
+                        <th scope="col">Leaving</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </section>
+
+</body>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+
+            $(document).on("click", ".showall", function () {
+                var EMPID = $(this).attr('data-id');
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/AdminIndex",
+                    data: {
+                        ID: USERID
+                    },
+                    success: function (data) {
+                        window.location.href = "/Admin/Privacy?ID=" + EMPID;
+                    }
+                    ,
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
+
+            $(document).on("click", ".deleteIcon", function () {
+                var EMPID = $(this).attr('data-id');
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "/Home/DeleteEmployee",
+                    data: {
+                        EMP_ID: EMPID
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        alert("Deleted");
+                        getData();
+                    }
+                    ,
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+
+            });
+        </script>
+    });
+}

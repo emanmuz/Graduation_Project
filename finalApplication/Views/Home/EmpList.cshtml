@@ -1,0 +1,77 @@
+﻿@page
+@model finalApplication.Views.Home.EmpListModel
+@{
+    ViewData["Title"] = "Employee List";
+    System.Data.DataView data = ViewBag.Data;
+}
+
+
+<body>
+    <!-- ======= Mobile nav toggle button ======= -->
+    <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+    <!-- ======= Header ======= -->
+    <header id="header">
+        <div class="d-flex flex-column">
+
+            <div class="profile">
+                <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
+                <h1 class="text-light"><a href="index.html">Teddy Shomali</a></h1>
+                <div class="social-links mt-3 text-center">
+                    <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                    <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                </div>
+            </div>
+
+            <nav id="navbar" class="nav-menu navbar">
+                <ul>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bx bx-home"> <span>Home</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Excuse" asp-action="ExcuseIndex"><i class="bx bx-home"><span>Excuses List</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Attendance"><i class="bi bi-table"><span>Attendance Table</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Emplist"><i class="bi bi-table"></i> <span>Employee List</span></a></li>
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
+    </header><!-- End Header -->
+    <main id="main">
+        <!-- ======= Attendence Table ======= -->
+        <section id="attendance" class="services">
+            <div class="container">
+
+                <div class="section-title">
+                    <h3>Attendance Table</h3>
+                </div>
+
+                <div class="row">
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Username</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Jop Titel</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        @if (data != null)
+                        {
+                            @foreach (System.Data.DataRowView rowView in data)
+                            {
+                                System.Data.DataRow row = rowView.Row;
+                                <tr data-id='@row["EMP_ID"]'>
+                                    <td>@row["USER_NAME"]</td>
+                                    <td>@row["EMP_NAME"]</td>  
+                                    <td>@row["JOP_TITEL"]</td> 
+                                    <td><button type="button" class="btn btn-outline-light">Show</button> <button type="button" class="btn btn-outline-light">Delete</button> <button type="button" class="btn btn-outline-light">Edit</button></td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+
+            </div>
+        </section><!-- End Services Section -->
+
+    </main><!-- End #main -->
+
+
+</body>
