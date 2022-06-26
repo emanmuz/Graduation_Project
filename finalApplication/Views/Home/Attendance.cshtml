@@ -1,4 +1,88 @@
 ﻿@page
 @model finalApplication.Views.Home.AttendanceModel
 @{
+    ViewData["Title"] = "Attendance List";
+    System.Data.DataView data = ViewBag.DataAttendance;
 }
+
+
+<body>
+    <!-- ======= Mobile nav toggle button ======= -->
+    <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+    <!-- ======= Header ======= -->
+    <header id="header">
+        <div class="d-flex flex-column">
+
+            <div class="profile">
+                <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
+                <h1 class="text-light"><a href="index.html">Teddy Shomali</a></h1>
+                <div class="social-links mt-3 text-center">
+                    <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                    <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                </div>
+            </div>
+
+            <nav id="navbar" class="nav-menu navbar">
+                <ul>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bx bx-home"> <span>Home</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Excuse" asp-action="ExcuseIndex"><i class="bx bx-home"><span>Excuses List</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Attendance"><i class="bi bi-table"><span>Attendance Table</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Emplist"><i class="bi bi-table"><span>Employee List</span></i></a></li>
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
+    </header><!-- End Header -->
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="hero-container" data-aos="fade-in">
+            <h1>Teddy Shomali</h1>
+            <p>I'm "Developer, Programer"></p>
+        </div>
+    </section><!-- End Hero -->
+
+    <section id="mytable" class="services d-flex flex-column justify-content-center align-items-center">
+        <div class="container">
+
+            <div class="section-title  d-flex flex-column justify-content-center align-items-center">
+                <h2>My Table</h2>
+            </div>
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Hours</th>
+                        <th scope="col">Detailed Time</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (data != null)
+                    {
+                        @foreach (System.Data.DataRowView rowView in data)
+                        {
+                            System.Data.DataRow row = rowView.Row;
+
+                            <tr data-id='@row["EMP_ID"]'>
+                                <!--dATE <td>@row[""]</td>-->
+                                <td>@row["USER_NAME"]</td>
+                                <td>@row["EMP_NAME"]</td>  <!-- لازم اعمل فنكشن مشان اطلع عدد الساعات منها -->
+                                <td>@row["START_HOUR"]/ @row["LEAVING_HOUR"]</td>
+                                <td>@row["START_HOUR"]- @row["LEAVING_HOUR"]</td>
+                                <td>@row["EMP_STATUS"]</td>
+                                <td><button type="button" class="btn btn-outline-info">Add Leaving</button></td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+    </section>
+
+</body>
+

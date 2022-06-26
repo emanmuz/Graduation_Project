@@ -12,24 +12,24 @@
     <header id="header">
         <div class="d-flex flex-column">
 
-            <div class="profile">
-                <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
-                <h1 class="text-light"><a href="index.html">Teddy Shomali</a></h1>
-                <div class="social-links mt-3 text-center">
-                    <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                    <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                <div class="profile">
+                    <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
+                    <h1 class="text-light"><a href="index.html">Teddy Shomali</a></h1>
+                    <div class="social-links mt-3 text-center">
+                        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                    </div>
                 </div>
-            </div>
 
-            <nav id="navbar" class="nav-menu navbar">
-                <ul>
-                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bx bx-home"> <span>Home</span></i></a></li>
-                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Excuse" asp-action="ExcuseIndex"><i class="bx bx-home"><span>Excuses List</span></i></a></li>
-                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Attendance"><i class="bi bi-table"><span>Attendance Table</span></i></a></li>
-                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Emplist"><i class="bi bi-table"><span>Employee List</span></i></a></li>
-                </ul>
-            </nav><!-- .nav-menu -->
-        </div>
+                <nav id="navbar" class="nav-menu navbar">
+                    <ul>
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bx bx-home"> <span>Home</span></i></a></li>
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Excuse" asp-action="ExcuseIndex"><i class="bx bx-home"><span>Excuses List</span></i></a></li>
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Attendance"><i class="bi bi-table"><span>Attendance Table</span></i></a></li>
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Emplist"><i class="bi bi-table"><span>Employee List</span></i></a></li>
+                    </ul>
+                </nav><!-- .nav-menu -->
+            </div>
     </header><!-- End Header -->
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
@@ -53,63 +53,31 @@
                         <th scope="col">Name</th>
                         <th scope="col">Hours</th>
                         <th scope="col">Detailed Time</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Leaving</th>
                     </tr>
                 </thead>
+                <tbody>
+                    @if (data != null)
+                    {
+                        @foreach (System.Data.DataRowView rowView in data)
+                        {
+                            System.Data.DataRow row = rowView.Row;
+                            <tr data-id='@row["EMP_ID"]'>
+                                <td>@row["USER_NAME"]</td>
+                                <td>@row["EMP_NAME"]</td>  <!-- لازم اعمل فنكشن مشان اطلع عدد الساعات منها -->
+                                <td>@row["START_HOUR"]/ @row["LEAVING_HOUR"]</td>
+                                <td>@row["START_HOUR"]- @row["LEAVING_HOUR"]</td>
+                                <td>@row["EMP_STATUS"]</td>
+                                <td><button type="button" class="btn btn-light">Add Leaving</button></td>
+                            </tr>
+                        }
+                    }
 
+                    
+                </tbody>
             </table>
         </div>
     </section>
 
 </body>
-
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        <script>
-
-            $(document).on("click", ".showall", function () {
-                var EMPID = $(this).attr('data-id');
-
-                $.ajax({
-                    type: "POST",
-                    url: "/Home/AdminIndex",
-                    data: {
-                        ID: USERID
-                    },
-                    success: function (data) {
-                        window.location.href = "/Admin/Privacy?ID=" + EMPID;
-                    }
-                    ,
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
-                    }
-                });
-            });
-
-            $(document).on("click", ".deleteIcon", function () {
-                var EMPID = $(this).attr('data-id');
-
-                $.ajax({
-                    type: "DELETE",
-                    url: "/Home/DeleteEmployee",
-                    data: {
-                        EMP_ID: EMPID
-                    },
-                    success: function (data) {
-                        console.log(data);
-                        alert("Deleted");
-                        getData();
-                    }
-                    ,
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
-                    }
-                });
-
-            });
-        </script>
-    });
-}

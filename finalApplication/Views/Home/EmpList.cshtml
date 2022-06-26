@@ -59,8 +59,8 @@
                                 System.Data.DataRow row = rowView.Row;
                                 <tr data-id='@row["EMP_ID"]'>
                                     <td>@row["USER_NAME"]</td>
-                                    <td>@row["EMP_NAME"]</td>  
-                                    <td>@row["JOP_TITEL"]</td> 
+                                    <td>@row["EMP_NAME"]</td>
+                                    <td>@row["JOP_TITEL"]</td>
                                     <td><button type="button" class="btn btn-outline-light">Show</button> <button type="button" class="btn btn-outline-light">Delete</button> <button type="button" class="btn btn-outline-light">Edit</button></td>
                                 </tr>
                             }
@@ -75,3 +75,56 @@
 
 
 </body>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+
+            $(document).on("click", ".showall", function () {
+                var EMPID = $(this).attr('data-id');
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/AdminIndex",
+                    data: {
+                        ID: USERID
+                    },
+                    success: function (data) {
+                        window.location.href = "/Admin/Privacy?ID=" + EMPID;
+                    }
+                    ,
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
+
+            $(document).on("click", ".deleteIcon", function () {
+                var EMPID = $(this).attr('data-id');
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "/Home/DeleteEmployee",
+                    data: {
+                        EMP_ID: EMPID
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        alert("Deleted");
+                        getData();
+                    }
+                    ,
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+
+            });
+        </script>
+    });
+}
