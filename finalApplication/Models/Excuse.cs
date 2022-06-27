@@ -73,5 +73,41 @@ namespace finalApplication.Models
         {
             con1.Close(aOracleConnection);
         }
+
+        public string DELETE_EXCUSE(string LEAVING_ID)
+        {
+            //Open Connection
+            Open();
+            OracleTransaction CmdTrans = aOracleConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+            try
+            {
+                var cmdText = "DELETE from LEAVING where LEAVING_ID=  " +
+                                    LEAVING_ID +
+
+                                "";
+                // create command and set properties  
+                OracleCommand cmd = aOracleConnection.CreateCommand();
+                cmd.Transaction = CmdTrans;
+                cmd.CommandType = CommandType.Text;
+
+                cmd.CommandText = cmdText;
+                cmd.ExecuteNonQuery();
+
+                CmdTrans.Commit();
+                return "1";
+
+            }
+
+            catch (Exception ex)
+            {
+                CmdTrans.Rollback();
+                throw new Exception(ex.Message.ToString());
+
+            }
+            finally
+            {
+                Close();
+            }
+        }
     }
 }

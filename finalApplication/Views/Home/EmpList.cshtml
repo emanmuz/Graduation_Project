@@ -61,7 +61,7 @@
                                     <td>@row["USER_NAME"]</td>
                                     <td>@row["EMP_NAME"]</td>
                                     <td>@row["JOP_TITEL"]</td>
-                                    <td><button type="button" class="btn btn-outline-light">Show</button> <button type="button" class="btn btn-outline-light">Delete</button> <button type="button" class="btn btn-outline-light">Edit</button></td>
+                                    <td><i class="fas fa-plus showall" style="cursor:pointer" ; data-id='@row["EMP_ID"]' action="/Home/Privacy"></i><i class="fa fa-close deleteIcon" style="cursor:pointer" ; data-id='@row["EMP_ID"]' data-name=''></i> <button type="button" class="btn btn-outline-light">Edit</button></td>
                                 </tr>
                             }
                         }
@@ -88,12 +88,13 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/Home/AdminIndex",
+                    url: "/Home/EmployeeIndex",
                     data: {
-                        ID: USERID
+                        ID: EMPID
                     },
                     success: function (data) {
-                        window.location.href = "/Admin/Privacy?ID=" + EMPID;
+                       
+                        window.location.href = "/Home/EmployeeIndex?ID=" + EMPID;
                     }
                     ,
                     error: function (xhr, ajaxOptions, thrownError) {

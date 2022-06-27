@@ -33,47 +33,84 @@
         </div>
     </header><!-- End Header -->
     <main>
-    <section id="excuses" class="portfolio section-bg">
-        <div class="container">
+        <section id="excuses" class="portfolio section-bg">
+            <div class="container">
 
-            <div class="section-title">
-                <h3>Excuses List</h3>
-                <br><br>
+                <div class="section-title">
+                    <h3>Excuses List</h3>
+                    <br><br>
 
-                <table class="table table-dark table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">UserName</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Leaving reason</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (data != null)
-                        {
-                            @foreach (System.Data.DataRowView rowView in data)
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">UserName</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Leaving reason</th>
+                                <th scope="col">Leaving Hour</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (data != null)
                             {
-                                System.Data.DataRow row = rowView.Row;
-                                string x = row["JOP_TYPE"].ToString();
-                                int v = Int32.Parse(x);
-                                <tr data-id='@row["LEAVING_ID"]'>
-                                    <th scope="row">1</th>
-                                    <td>@row["EMP_NAME"]</td>
-                                    <td>@row["DATE"]</td>
-                                    <td>@row["STATUS"]</td>
-                                    <td><button type="button" class="btn btn-outline-info">Approve</button> <button type="button" class="btn btn-outline-danger">Reject</button></td>
-                                </tr>
+                                @foreach (System.Data.DataRowView rowView in data)
+                                {
+                                    System.Data.DataRow row = rowView.Row;
+                                    string x = row["JOP_TYPE"].ToString();
+                                    int v = Int32.Parse(x);
+                                    <tr data-id='@row["LEAVING_ID"]'>
+                                        <th scope="row">1</th>
+                                        <td>@row["EMP_NAME"]</td>
+                                        <td>@row["DATE"]</td>
+                                        <td>@row["STATUS"]</td>
+                                        <th scope="col">@row["HOUR"]</th>
+                                        <td><i class="fa fa-check-circle-o approveicon" style="font-size:48px;color:blue">Approve</i> <i class="fa fa-times-rectangle-o rejecticon" style="font-size:48px;color:red">Reject</i></td>
+                                    </tr>
+                                }
                             }
-                        }
-                     
-                    </tbody>
-                </table>
-            </div>
 
-        </div>
-    </section><!-- End E Section -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </section><!-- End E Section -->
     </main>
 </body>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+
+            $(document).on("click", "#approveicon", function () {
+                $('#approveicon').prop("disabled", true);
+                $('#rejecticon').prop("disabled", true);
+            });
+
+            $(document).on("click", ".deleteIcon", function () {
+                var EMPID = $(this).attr('data-id');
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "/Home/DeleteEmployee",
+                    data: {
+                        EMP_ID: EMPID
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        alert("Deleted");
+                        getData();
+                    }
+                    ,
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+
+            });
+        </script>
+    });
+}

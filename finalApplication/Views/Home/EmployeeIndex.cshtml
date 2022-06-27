@@ -27,7 +27,7 @@
                 <nav id="navbar" class="nav-menu navbar">
                     <ul>
                         <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bx bx-home"> <span>Home</span></i></a></li>
-                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Excuse" asp-action="ExcuseIndex"><i class="bx bx-home"><span> My Table</span></i></a></li>
+                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bx bx-home"><span> My Table</span></i></a></li>
                     </ul>
                 </nav><!-- .nav-menu -->
             </div>
@@ -104,7 +104,7 @@
                                 <th scope="col">Hours</th>
                                 <th scope="col">Detailed Time</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Leaving</th>
+                                <th scope="col">Add Leaving</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,12 +114,13 @@
                                 {
                                     System.Data.DataRow row = rowView.Row;
                                     <tr data-id='@row["EMP_ID"]'>
+                                        <td>@row["DATE"]</td>
                                         <td>@row["USER_NAME"]</td>
                                         <td>@row["EMP_NAME"]</td>  <!-- لازم اعمل فنكشن مشان اطلع عدد الساعات منها -->
                                         <td>@row["START_HOUR"]/ @row["LEAVING_HOUR"]</td>
                                         <td>@row["START_HOUR"]- @row["LEAVING_HOUR"]</td>
                                         <td>@row["EMP_STATUS"]</td>
-                                        <td><button type="button" class="btn btn-light">Add Leaving</button></td>
+                                        <td><i class="fa fa-edit" style="font-size: 48px; color:blue"></i></td>
                                     </tr>
                                 }
                             }

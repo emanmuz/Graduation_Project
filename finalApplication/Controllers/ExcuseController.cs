@@ -20,21 +20,20 @@ namespace finalApplication.Controllers
             return View();
         }
 
-        // GET: ExcuseController/Details/5
-        public ActionResult Details(int id)
+        public string DeleteExcuse(string LEAVING_ID)
         {
-            return View();
+            var count = new Employees().QueryReader("SELECT COUNT(*) AS COUNT FROM LEAVING WHERE LEAVING.LEAVING_ID=" + LEAVING_ID);
+
+            int x = Int32.Parse(count.Rows[0]["COUNT"].ToString());
+            Console.WriteLine(x);
+            if (x == 0)
+            {
+                var DELETED_LEAVING_ID = new Excuse().DELETE_EXCUSE(LEAVING_ID);
+                return LEAVING_ID;
+            }
+
+            return "-1";
         }
 
-        // GET: ExcuseController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ExcuseController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-      
     }
 }
