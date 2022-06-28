@@ -64,6 +64,7 @@ namespace finalApplication.oConnection
             {
                 json = r.ReadToEnd();
             }
+            
             dynamic array = JsonConvert.DeserializeObject(json);
             return array["OracleConnectionString"]["ConnectionString"];
         }

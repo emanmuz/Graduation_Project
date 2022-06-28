@@ -119,8 +119,7 @@ namespace finalApplication.Models
                 {
 
                     var USERS_SEQ = QueryReader("SELECT STD_ID_SEQ.NEXTVAL AS Student_ID FROM Student", CmdTrans, aOracleConnection);
-                    // var USERS_ID = USERS_SEQ.Rows[0]["USERS_ID"].ToString();
-
+     
                     var cmdText = "INSERT INTO EMPLOYEES ( " +
                                         "LEAVING_ID, " +
                                         "EMP_NAME, " +
