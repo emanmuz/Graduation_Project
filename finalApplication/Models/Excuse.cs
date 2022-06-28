@@ -109,5 +109,78 @@ namespace finalApplication.Models
                 Close();
             }
         }
-    }
+
+            public string Add(int leaving_id, string emp_name, string emp_id, string admin_id, int status, int tag, DateTime date)
+            {
+                //Open Connection
+                Open();
+                OracleTransaction CmdTrans = aOracleConnection.BeginTransaction(IsolationLevel.ReadCommitted);
+                try
+                {
+
+                    var USERS_SEQ = QueryReader("SELECT STD_ID_SEQ.NEXTVAL AS Student_ID FROM Student", CmdTrans, aOracleConnection);
+                    // var USERS_ID = USERS_SEQ.Rows[0]["USERS_ID"].ToString();
+
+                    var cmdText = "INSERT INTO EMPLOYEES ( " +
+                                        "LEAVING_ID, " +
+                                        "EMP_NAME, " +
+                                        "EMP_ID," +
+                                        "ADMIN_ID," +
+                                        "STATUS," +
+                                        "TAG," +
+                                        "DATE," +
+
+                                    ") VALUES( " +
+
+                                          ":LEAVING_ID, " +
+                                        ":EMP_NAME, " +
+                                        ":EMP_ID," +
+                                        ":ADMIN_ID," +
+                                        ":STATUS," +
+                                        ":TAG," +
+                                        ":DATE," +
+                                    ") ";
+
+                    // create command and set properties  
+                    OracleCommand cmd = aOracleConnection.CreateCommand();
+                    cmd.Transaction = CmdTrans;
+                    cmd.CommandType = CommandType.Text;
+
+                    cmd.CommandText = cmdText;
+
+                    cmd.Parameters.Add(":LEAVING_ID", OracleDbType.Int16).Value = leaving_id;
+                    cmd.Parameters.Add(":EMP_NAME", OracleDbType.NVarchar2).Value = emp_name;
+                    cmd.Parameters.Add(":ADMIN_ID", OracleDbType.NVarchar2).Value = admin_id;
+                    cmd.Parameters.Add(":STATUS", OracleDbType.Int16).Value = status;
+                    cmd.Parameters.Add(":TAG", OracleDbType.Int16).Value = tag;
+                    cmd.Parameters.Add(":date", OracleDbType.NVarchar2).Value = date;
+
+
+
+                    cmd.ExecuteNonQuery();
+
+
+                    CmdTrans.Commit();
+                    return emp_name;
+
+                }
+
+                catch (Exception ex)
+                {
+                    CmdTrans.Rollback();
+                    throw new Exception(ex.Message.ToString());
+
+                }
+                finally
+                {
+                    Close();
+                }
+            }
+
+           
+
+     }
 }
+    
+
+

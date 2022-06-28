@@ -12,24 +12,24 @@
     <header id="header">
         <div class="d-flex flex-column">
 
-                <div class="profile">
-                    <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
-                    <h1 class="text-light"><a href="index.html">Teddy Shomali</a></h1>
-                    <div class="social-links mt-3 text-center">
-                        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-                    </div>
+            <div class="profile">
+                <img src="assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
+                <h1 class="text-light"><a href="index.html">Teddy Shomali</a></h1>
+                <div class="social-links mt-3 text-center">
+                    <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                    <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
                 </div>
-
-                <nav id="navbar" class="nav-menu navbar">
-                    <ul>
-                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bx bx-home"> <span>Home</span></i></a></li>
-                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Excuse" asp-action="ExcuseIndex"><i class="bx bx-home"><span>Leaving List</span></i></a></li>
-                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Attendance"><i class="bi bi-table"><span>Attendance Table</span></i></a></li>
-                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Emplist"><i class="bi bi-table"><span>Employee List</span></i></a></li>
-                    </ul>
-                </nav><!-- .nav-menu -->
             </div>
+
+            <nav id="navbar" class="nav-menu navbar">
+                <ul>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="bx bx-home"> <span>Home</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Excuse" asp-action="ExcuseIndex"><i class="bx bx-home"><span>Leaving List</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Attendance"><i class="bi bi-table"><span>Attendance Table</span></i></a></li>
+                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Emplist"><i class="bi bi-table"><span>Employee List</span></i></a></li>
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
     </header><!-- End Header -->
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
@@ -70,15 +70,79 @@
                                 <td>@row["START_HOUR"]/ @row["LEAVING_HOUR"]</td>
                                 <td>@row["START_HOUR"]- @row["LEAVING_HOUR"]</td>
                                 <td>@row["EMP_STATUS"]</td>
+                                <td> <input type="text" class="form-control" id="input1" placeholder="Add Leaving" name="Leave" /></td>
                                 <td><i class="fa fa-edit" style="font-size: 48px; color:blue"></i></td>
                             </tr>
                         }
                     }
 
-                    
+
                 </tbody>
             </table>
         </div>
     </section>
 
 </body>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+
+            $(document).on("click", "#approveicon", function () {
+                $('#approveicon').prop("disabled", true);
+                $('#rejecticon').prop("disabled", true);
+            });
+
+            $(document).on("click", ".deleteIcon", function () {
+                var EMPID = $(this).attr('data-id');
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "/Home/DeleteEmployee",
+                    data: {
+                        EMP_ID: EMPID
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        alert("Deleted");
+                        getData();
+                    }
+                    ,
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+
+            });
+
+            $(document).on("click", "#Add", function () {
+                var name = $("#input1").val();
+                var id = $("#price > tbody > tr").find("td:eq(0)").attr('data-id');
+              
+                var form = new FormData();
+                form.append("name", name);
+                form.append("name", name);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/add",
+                    processData: false,
+                    contentType: false,
+                    data: form
+
+                    ,
+                    success: function (data) {
+                        getCategories(id);
+                       
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                        alert(thrownError);
+                    }
+                });
+            });
+        </script>
+    });
+}
