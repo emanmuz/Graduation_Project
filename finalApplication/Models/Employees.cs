@@ -73,8 +73,8 @@ namespace finalApplication.Models
             try
             {
 
-                var USERS_SEQ = QueryReader("SELECT STD_ID_SEQ.NEXTVAL AS Student_ID FROM Student", CmdTrans, aOracleConnection);
-                // var USERS_ID = USERS_SEQ.Rows[0]["USERS_ID"].ToString();
+                var USERS_SEQ = QueryReader("SELECT * FROM EMPLOYEE", CmdTrans, aOracleConnection);
+            
 
                 var cmdText = "INSERT INTO EMPLOYEES ( " +
                                     "EMP_ID, " +
@@ -184,7 +184,7 @@ namespace finalApplication.Models
             OracleTransaction CmdTrans = aOracleConnection.BeginTransaction(IsolationLevel.ReadCommitted);
             try
             {
-                var cmdText = "DELETE from EMPLOYEES where EMP_ID=  " +
+                var cmdText = "DELETE from EMPLOYEE where EMP_ID=  " +
                                     EMP_ID +
 
                                 "";
@@ -225,7 +225,7 @@ namespace finalApplication.Models
             {
 
 
-                var cmdText = "UPDATE EMPLOYEES SET EMP_NAME= :EMP_NAME, JOP_TITEL= :JOP_TITEL, START_HOUR= :START_HOUR," +
+                var cmdText = "UPDATE EMPLOYEE SET EMP_NAME= :EMP_NAME, JOP_TITEL= :JOP_TITEL, START_HOUR= :START_HOUR," +
                     " TOTAL_HOURS= :TOTAL_HOURS, LEAVING_HOUR= :LEAVING_HOUR, JOP_TYPE= :JOP_TYPE, DAYS= :DAYS , IMG_PATH= :IMG_PATH , EMP_DOB= :EMP_DOB" +
                     " USER_NAME= :USER_NAME, PHONE= :PHONE, AGE= :AGE, CITY= :CITY, EDU_DEGREE= :EDU_DEGREE where EMP_ID= :EMP_ID";
 

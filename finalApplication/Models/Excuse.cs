@@ -118,7 +118,7 @@ namespace finalApplication.Models
                 try
                 {
 
-                    var USERS_SEQ = QueryReader("SELECT STD_ID_SEQ.NEXTVAL AS Student_ID FROM Student", CmdTrans, aOracleConnection);
+                    var USERS_SEQ = QueryReader("SELECT * FROM LEAVING", CmdTrans, aOracleConnection);
      
                     var cmdText = "INSERT INTO EMPLOYEES ( " +
                                         "LEAVING_ID, " +

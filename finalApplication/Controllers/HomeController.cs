@@ -20,35 +20,35 @@ namespace finalApplication.Controllers
 
         public IActionResult Index()
         {
-            var DataEmp = new Employees().QueryReader("SELECT * FROM EMPLOYEES");
-            ViewBag.emp = DataEmp.DefaultView;
+            var emp = new Employees().QueryReader("SELECT * FROM EMPLOYEE");
+            ViewBag.DataEmp = emp.DefaultView;
             return View();
         }
 
         public IActionResult Emplist()
         {
-            var Data = new Employees().QueryReader("SELECT * FROM EMPLOYEES");
-            ViewBag.emp = Data.DefaultView;
+            var Data = new Employees().QueryReader("SELECT * FROM EMPLOYEE");
+            ViewBag.DataEmp = Data.DefaultView;
             return View();
         }
 
         public IActionResult EmployeeIndex(string ID)
         {
-            var DataEmployee = new Employees().QueryReader("SELECT * FROM EMPLOYEES  WHERE EMPLOYEES.EMP_ID" + ID);
-            ViewBag.emp = DataEmployee.DefaultView;
+            var Data = new Employees().QueryReader("SELECT * FROM EMPLOYEE  WHERE EMPLOYEE.EMP_ID" + ID);
+            ViewBag.DataEmployee = Data.DefaultView;
             return View();
         }
         public IActionResult Attendance()
         {
-            var DataAttendance = new Employees().QueryReader("SELECT * FROM EMPLOYEES");
-            ViewBag.emp = DataAttendance.DefaultView;
+            var Data = new Employees().QueryReader("SELECT * FROM EMPLOYEE");
+            ViewBag.DataAttendance = Data.DefaultView;
             return View();
         }
 
         public IActionResult Search(string ID)
         {
-            var Data2 = new Employees().QueryReader("SELECT * FROM EMPLOYEES WHERE EMPLOYEES.EMP_ID" + ID);
-            ViewBag.emp = Data2.DefaultView;
+            var Data = new Employees().QueryReader("SELECT * FROM EMPLOYEE WHERE EMPLOYEE.EMP_ID" + ID);
+            ViewBag.search = Data.DefaultView;
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace finalApplication.Controllers
 
         public string DeleteEmployee(string EMP_ID)
         {
-            var count = new Employees().QueryReader("SELECT COUNT(*) AS COUNT FROM EMPLOYEES WHERE EMPLOYEES.EMP_ID=" + EMP_ID);
+            var count = new Employees().QueryReader("SELECT COUNT(*) AS COUNT FROM EMPLOYEE WHERE EMPLOYEE.EMP_ID=" + EMP_ID);
             return "-1";
         }
 
@@ -81,7 +81,7 @@ namespace finalApplication.Controllers
 
         public JsonResult GetEmployee(string ID)
         {
-            var Data = new Employees().QueryReader("SELECT * FROM EMPLOYEES");
+            var Data = new Employees().QueryReader("SELECT * FROM EMPLOYEE");
             return Json(Data);
         }
 
